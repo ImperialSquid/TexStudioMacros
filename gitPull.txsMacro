@@ -1,8 +1,9 @@
 {
     "abbrev": "",
     "description": [
-        "When run (or on startup):",
-        ""
+        "When run (or at start up):",
+        "- Check for existing remote",
+        "- Ask to pull commits"
     ],
     "formatVersion": 1,
     "menu": "Git Integration",
