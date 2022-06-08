@@ -1,0 +1,39 @@
+{
+    "abbrev": "",
+    "description": [
+        "When run (or on finishing compiling):",
+        "- Opens a dialogue with:",
+        "  - Text box to enter commit message",
+        "  - Check box for also pushing to remote (if remote found)"
+    ],
+    "formatVersion": 1,
+    "menu": "Git Integration",
+    "name": "Git Commit/Push",
+    "shortcut": "",
+    "tag": [
+        "%SCRIPT",
+        "workDir = editor.fileName()",
+        "workDir = workDir.substring(0, workDir.lastIndexOf(\"/\"))",
+        "",
+        "cmd = system(\"git ls-remote > /dev/null\", workDir)",
+        "cmd.waitForFinished()",
+        "remoteFound = (cmd.exitCode() == \"0\") // check for remote first",
+        "",
+        "prompt = new UniversalInputDialog()",
+        "prompt.setWindowTitle(\"Git Commit/Push\")",
+        "prompt.add(\"Auto commit by TeXStudio macro\", \"Commit Message\", \"mess\")",
+        "if (remoteFound) {  // only ask to push if remote exists",
+        "\tprompt.add(true, \"Push to remote?\", \"push\")",
+        "}",
+        "",
+        "if (prompt.exec() != null) {",
+        "\tcmd = system(\"git commit . -m \\\"\" + prompt.get(\"mess\") + \"\\\"\", workDir)",
+        "\tcmd.waitForFinished()",
+        "\tif (remoteFound && prompt.get(\"push\") == true){",
+        "\t\tcmd = system(\"git push origin main\", workDir)",
+        "\t\tcmd.waitForFinished()",
+        "\t}",
+        "}"
+    ],
+    "trigger": "?after-command-run"
+}

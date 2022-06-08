@@ -1,0 +1,31 @@
+{
+    "abbrev": "",
+    "description": [
+        "When run (or on startup):",
+        ""
+    ],
+    "formatVersion": 1,
+    "menu": "Git Integration",
+    "name": "Git Pull",
+    "shortcut": "",
+    "tag": [
+        "%SCRIPT",
+        "workDir = editor.fileName()",
+        "workDir = workDir.substring(0, workDir.lastIndexOf(\"/\"))",
+        "",
+        "",
+        "cmd = system(\"git remote update >/dev/null 2>&1\", workDir)",
+        "cmd.waitForFinished()",
+        "remoteFound = (cmd.exitCode() == \"0\") // check for remote first",
+        "",
+        "if (remoteFound) {",
+        "\tif (confirm(\"Found remote repository for this repo.\\nPull remote?\")) {",
+        "\t\tcmd = system(\"git pull\", workDir)",
+        "\t\tcmd.waitForFinished()",
+        "\t}",
+        "} else {",
+        "\twarning(\"No remote repo found!\")",
+        "}"
+    ],
+    "trigger": "?txs-start"
+}
